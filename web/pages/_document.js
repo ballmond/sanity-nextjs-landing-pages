@@ -1,16 +1,17 @@
-import React from 'react'
-import Document, {Html, Head, Main, NextScript} from 'next/document'
-import client from '../client'
+import React from 'react';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
+import client from '../client';
+import groq from 'groq';
 
 export default class MyDocument extends Document {
-  static async getInitialProps (ctx) {
-    const initialProps = await Document.getInitialProps(ctx)
-    return client.fetch('*[_id == "global-config"] {lang}.lang[0]').then(lang => {
-      return {...initialProps, lang}
-    })
+  static async getInitialProps(ctx) {
+    const initialProps = await Document.getInitialProps(ctx);
+    return client.fetch(groq`*[_id == "global-config"] {lang}.lang[0]`).then((lang) => {
+      return { ...initialProps, lang };
+    });
   }
 
-  render () {
+  render() {
     return (
       <Html lang={this.props.lang || 'en'}>
         <Head />
@@ -19,6 +20,6 @@ export default class MyDocument extends Document {
           <NextScript />
         </body>
       </Html>
-    )
+    );
   }
 }
