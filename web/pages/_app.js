@@ -1,9 +1,8 @@
-import React from 'react'
-import BaseApp, {Container} from 'next/app'
-import client from '../client'
-// import 'normalize.css'
-import '../styles/shared.module.css'
-import '../styles/layout.css'
+import React from 'react';
+import BaseApp, { Container } from 'next/app';
+import client from '../client';
+import '../styles/shared.module.css';
+import '../styles/layout.css';
 
 const siteConfigQuery = `
   *[_id == "global-config"] {
@@ -18,37 +17,37 @@ const siteConfigQuery = `
       "title": page->title
     }
   }[0]
-  `
+  `;
 
 class App extends BaseApp {
-  static async getInitialProps ({Component, ctx}) {
-    let pageProps = {}
+  static async getInitialProps({ Component, ctx }) {
+    let pageProps = {};
 
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx)
+      pageProps = await Component.getInitialProps(ctx);
     }
 
     // Add site config from sanity
-    return client.fetch(siteConfigQuery).then(config => {
+    return client.fetch(siteConfigQuery).then((config) => {
       if (!config) {
-        return {pageProps}
+        return { pageProps };
       }
       if (config && pageProps) {
-        pageProps.config = config
+        pageProps.config = config;
       }
 
-      return {pageProps}
-    })
+      return { pageProps };
+    });
   }
 
-  render () {
-    const {Component, pageProps} = this.props
+  render() {
+    const { Component, pageProps } = this.props;
     return (
       <Container>
         <Component {...pageProps} />
       </Container>
-    )
+    );
   }
 }
 
-export default App
+export default App;
