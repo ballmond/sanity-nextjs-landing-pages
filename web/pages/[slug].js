@@ -1,5 +1,4 @@
 import { getSiteDetails, getPageData, getRoutes } from '../lib/api';
-import groq from 'groq';
 import imageUrlBuilder from '@sanity/image-url';
 import { NextSeo } from 'next-seo';
 import client from '../client';
@@ -44,52 +43,39 @@ export default function LandingPage({ page, site, slug }) {
     : [];
 
   return (
-    // <Layout config={config}>
-    //   <NextSeo
-    //     config={{
-    //       title,
-    //       titleTemplate: `${config.title} | %s`,
-    //       description,
-    //       canonical: config.url && `${config.url}/${slug}`,
-    //       openGraph: {
-    //         images: openGraphImages,
-    //       },
-    //       noindex: disallowRobots,
-    //     }}
-    //   />
-    //   {content && <RenderSections sections={content} />}
-    // </Layout>
-
-    // const { title, mainNavigation, footerNavigation, footerText, logo, url } = config;
     <Layout
       config={{
         title,
         titleTemplate: `${config.title} | %s`,
         description,
-        // canonical: config.url && `${config.url}/${slug}`,
-        // openGraph: {
-        //   images: openGraphImages,
-        // },
-        // noindex: disallowRobots,
         ...site,
-        // logo: site.logo,
-        // url: site.url,
       }}
     >
+      <NextSeo
+        config={{
+          title,
+          titleTemplate: `${config.title} | %s`,
+          description,
+          canonical: config.url && `${config.url}/${slug}`,
+          openGraph: {
+            images: openGraphImages,
+          },
+          noindex: disallowRobots,
+        }}
+      />
       {content && <RenderSections sections={content} />}
     </Layout>
   );
 }
 
 export async function getStaticProps({ params }) {
-  getSiteDetails();
-  const { slug = '' } = params;
+  const { slug = '/' } = params;
+  console.log(slug);
   const { data } = await getPageData(slug);
   const site = await getSiteDetails();
   const props = {
     props: { ...data, ...site.data },
   };
-  //   console.log(`propssss: ${JSON.stringify(props, null, 2)}`);
   return props;
 }
 

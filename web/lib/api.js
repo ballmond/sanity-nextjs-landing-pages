@@ -95,5 +95,7 @@ export async function getRoutes() {
     fallback: false,
   };
 
+  // console.log(`routesss: ${JSON.stringify(props, null, 2)}`);
+
   return props;
 }

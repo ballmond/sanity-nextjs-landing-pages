@@ -40,6 +40,15 @@ module.exports = withCSS({
     importLoaders: 1,
     localIdentName: isProduction ? '[hash:base64:5]' : '[name]__[local]___[hash:base64:5]',
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/LandingPage',
+        permanent: true,
+      },
+    ];
+  },
   // exportPathMap: function () {
   //   return client.fetch(query).then((res) => {
   //     const { routes = [] } = res;
