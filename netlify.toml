@@ -1,1 +1,4 @@
-/              /LandingPage
+[[redirects]]
+from = "/"
+to = "/LandingPage"
+status = 301
