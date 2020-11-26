@@ -1,3 +1,4 @@
+import { getSiteDetails, getPageData, getRoutes } from '../lib/api';
 import groq from 'groq';
 import imageUrlBuilder from '@sanity/image-url';
 import { NextSeo } from 'next-seo';
@@ -5,7 +6,7 @@ import client from '../client';
 import Layout from '../components/Layout';
 import RenderSections from '../components/RenderSections';
 
-export default function LandingPage({ page, slug }) {
+export default function LandingPage({ page, site, slug }) {
   const builder = imageUrlBuilder(client);
 
   const {
@@ -58,73 +59,40 @@ export default function LandingPage({ page, slug }) {
     //   />
     //   {content && <RenderSections sections={content} />}
     // </Layout>
-    <Layout config={config}>
-      <h1>lol</h1>
-      <h2>:sigh:</h2>
+
+    // const { title, mainNavigation, footerNavigation, footerText, logo, url } = config;
+    <Layout
+      config={{
+        title,
+        titleTemplate: `${config.title} | %s`,
+        description,
+        // canonical: config.url && `${config.url}/${slug}`,
+        // openGraph: {
+        //   images: openGraphImages,
+        // },
+        // noindex: disallowRobots,
+        ...site,
+        // logo: site.logo,
+        // url: site.url,
+      }}
+    >
+      {content && <RenderSections sections={content} />}
     </Layout>
   );
 }
 
-const pageQuery = groq`
-*[_type == "route" && slug.current == $slug][0]{
-  page-> {
-    ...,
-    content[] {
-      ...,
-      cta {
-        ...,
-        route->
-      },
-      ctas[] {
-        ...,
-        route->
-      }
-    }
-  }
-}
-`;
-
 export async function getStaticProps({ params }) {
+  getSiteDetails();
   const { slug = '' } = params;
-  const res = await client.fetch(pageQuery, { slug }).then((res) => ({ ...res, slug }));
-
+  const { data } = await getPageData(slug);
+  const site = await getSiteDetails();
   const props = {
-    props: {
-      ...res,
-      slug,
-    },
+    props: { ...data, ...site.data },
   };
-
+  //   console.log(`propssss: ${JSON.stringify(props, null, 2)}`);
   return props;
 }
-
-const queryPaths = groq`{
-    "routes": *[_type == "route"] {
-      ...,
-      disallowRobot,
-      includeInSitemap,
-      page->{
-        _id,
-        title,
-        _createdAt,
-        _updatedAt
-    }}
-  }
-  `;
 
 export async function getStaticPaths() {
-  const { routes } = await client.fetch(queryPaths);
-
-  const props = {
-    paths: routes.map((route) => {
-      return {
-        params: {
-          slug: route.slug.current,
-        },
-      };
-    }),
-    fallback: false,
-  };
-
-  return props;
+  return getRoutes();
 }

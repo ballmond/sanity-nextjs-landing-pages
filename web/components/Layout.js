@@ -15,20 +15,6 @@ function Layout(props) {
 
   const { title, mainNavigation, footerNavigation, footerText, logo, url } = config;
   const logoUrl = logo && logo.asset && logo.asset.url;
-
-  // return (
-  //   <>
-  //     <Head>
-  //       <meta name='viewport' content='initial-scale=1.0, width=device-width, viewport-fit=cover' />
-  //     </Head>
-  //     <div className='container'>
-  //       <Header title={title} navItems={mainNavigation} logo={logo} />
-  //       <div className='content'>{children}</div>
-  //       <Footer navItems={footerNavigation} text={footerText} />
-  //       {logoUrl && url && <LogoJsonLd url={url} logo={logoUrl} />}
-  //     </div>
-  //   </>
-  // )
   return (
     <>
       <Head>
@@ -45,7 +31,7 @@ function Layout(props) {
 }
 
 Layout.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.node),
+  children: PropTypes.arrayOf(PropTypes.object),
   config: PropTypes.shape({
     title: PropTypes.string,
     mainNavigation: PropTypes.arrayOf(PropTypes.object),
