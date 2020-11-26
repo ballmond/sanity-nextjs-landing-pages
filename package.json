@@ -17,5 +17,6 @@
     "@sanity/cli": "^2.0.9",
     "lerna": "^3.22.1",
     "prettier": "^2.2.0"
-  }
+  },
+  "dependencies": {}
 }
