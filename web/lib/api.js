@@ -20,19 +20,9 @@ const pageQuery = groq`
 }
 `;
 
-const pathsQuery = groq`{
-    "routes": *[_type == "route"] {
-      ...,
-      disallowRobot,
-      includeInSitemap,
-      page->{
-        _id,
-        title,
-        _createdAt,
-        _updatedAt
-    }}
-  }
-  `;
+const postQuery = groq`
+*[_type == "post" && slug.current == 'sunday-school'][0]
+`;
 
 const siteConfigQuery = groq`
   {"site": *[_id == "global-config"] {
@@ -47,7 +37,33 @@ const siteConfigQuery = groq`
       "title": page->title
     }
   }[0]
-  }`;
+  }
+  `;
+
+const postsQuery = groq`
+*[_type == 'post'] | order(publishedAt desc){
+  title,
+  'key': _rev,
+  'slug': slug.current,
+  body,
+  'categories': categories[]->.title,
+  'author': author->.name,
+  publishedAt
+}
+  `;
+
+const routesQuery = groq`
+  *[_type == "route"] {
+    ...,
+    disallowRobot,
+    includeInSitemap,
+    page->{
+      _id,
+      title,
+      _createdAt,
+      _updatedAt
+  }}
+`;
 
 export async function getSiteDetails() {
   const res = await client.fetch(siteConfigQuery).then((res) => ({ ...res }));
@@ -70,20 +86,42 @@ export async function getPageData(slug) {
 }
 
 export async function getRoutes() {
-  const { routes } = await client.fetch(pathsQuery);
+  // const { routes } = await client.fetch(pathsQuery);
 
-  const props = {
-    paths: routes.map((route) => {
-      return {
-        params: {
-          slug: route.slug.current,
-        },
-      };
-    }),
-    fallback: false,
+  // const props = {
+  //   paths: routes.map((route) => {
+  //     return {
+  //       params: {
+  //         slug: route.slug.current,
+  //       },
+  //     };
+  //   }),
+  //   fallback: false,
+  // };
+
+  // return props;
+  const res = await client.fetch(routesQuery);
+  const data = {
+    data: res,
   };
 
-  // console.log(`routesss: ${JSON.stringify(props, null, 2)}`);
+  return data;
+}
 
-  return props;
+export async function getPost(slug) {
+  const res = await client.fetch(postQuery, { slug });
+  const data = {
+    data: res,
+  };
+
+  return data;
+}
+
+export async function getPosts() {
+  const res = await client.fetch(postsQuery);
+  const data = {
+    data: res,
+  };
+
+  return data;
 }

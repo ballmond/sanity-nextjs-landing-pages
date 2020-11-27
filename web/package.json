@@ -17,6 +17,7 @@
     "@sanity/client": "^2.0.9",
     "@sanity/image-url": "^0.140.19",
     "@zeit/next-css": "^1.0.1",
+    "date-fns": "^2.16.1",
     "groq": "^0.140.0",
     "lodash": "^4.17.20",
     "next": "^10.0.3",
