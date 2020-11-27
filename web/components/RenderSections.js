@@ -1,4 +1,3 @@
-import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { upperFirst } from 'lodash';
 import * as SectionComponents from './sections';
