@@ -49,18 +49,6 @@ const siteConfigQuery = groq`
   }[0]
   }`;
 
-// export async function getSiteDetails() {
-//   const res = await fetch('http://localhost:3000/api/siteDetails')
-//     .then((resp) => resp.json()) // Transform the data into json
-//     .then(function (data) {
-//       const props = {
-//         ...data,
-//       };
-//       console.log(props);
-//       return props;
-//     });
-// }
-
 export async function getSiteDetails() {
   const res = await client.fetch(siteConfigQuery).then((res) => ({ ...res }));
 

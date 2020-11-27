@@ -49,14 +49,14 @@ module.exports = withCSS({
       },
     ];
   },
-  exportPathMap: function () {
-    return client.fetch(query).then((res) => {
-      const { routes = [] } = res;
-      const nextRoutes = {
-        // Routes imported from sanity
-        ...routes.filter(({ slug }) => slug.current).reduce(reduceRoutes, {}),
-      };
-      return nextRoutes;
-    });
-  },
+  // exportPathMap: function () {
+  //   return client.fetch(query).then((res) => {
+  //     const { routes = [] } = res;
+  //     const nextRoutes = {
+  //       // Routes imported from sanity
+  //       ...routes.filter(({ slug }) => slug.current).reduce(reduceRoutes, {}),
+  //     };
+  //     return nextRoutes;
+  //   });
+  // },
 });
