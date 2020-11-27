@@ -70,7 +70,6 @@ export default function LandingPage({ page, site, slug }) {
 
 export async function getStaticProps({ params }) {
   const { slug = '/' } = params;
-  console.log(slug);
   const { data } = await getPageData(slug);
   const site = await getSiteDetails();
   const props = {
