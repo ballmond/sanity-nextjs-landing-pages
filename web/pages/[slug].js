@@ -1,11 +1,11 @@
-import { getSiteDetails, getPageData, getRoutes } from '../lib/api';
+import { getSiteDetails, getPageData, getRoutes, getPosts } from '../lib/api';
 import imageUrlBuilder from '@sanity/image-url';
 import { NextSeo } from 'next-seo';
 import client from '../client';
 import Layout from '../components/Layout';
 import RenderSections from '../components/RenderSections';
 
-export default function LandingPage({ page, site, slug }) {
+export default function LandingPage({ page, site, slug, posts }) {
   const builder = imageUrlBuilder(client);
 
   const {
@@ -63,7 +63,7 @@ export default function LandingPage({ page, site, slug }) {
           noindex: disallowRobots,
         }}
       />
-      {content && <RenderSections sections={content} />}
+      {content && <RenderSections sections={content} posts={posts} />}
     </Layout>
   );
 }
@@ -71,13 +71,32 @@ export default function LandingPage({ page, site, slug }) {
 export async function getStaticProps({ params }) {
   const { slug = '/' } = params;
   const { data } = await getPageData(slug);
+  const { data: posts } = await getPosts();
+
   const site = await getSiteDetails();
   const props = {
-    props: { ...data, ...site.data },
+    props: {
+      posts: posts,
+      ...data,
+      ...site.data,
+    },
   };
+
   return props;
 }
 
 export async function getStaticPaths() {
-  return getRoutes();
+  const { data } = await getRoutes();
+  const props = {
+    paths: data.map((route) => {
+      return {
+        params: {
+          slug: route.slug.current,
+        },
+      };
+    }),
+    fallback: false,
+  };
+
+  return props;
 }

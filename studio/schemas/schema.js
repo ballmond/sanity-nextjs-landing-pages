@@ -8,6 +8,9 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 import page from './documents/page'
 import route from './documents/route'
 import siteConfig from './documents/siteConfig'
+import post from './documents/post'
+import author from './documents/author'
+import category from './documents/category'
 
 // Object types
 import cta from './objects/cta'
@@ -24,6 +27,7 @@ import imageSection from './objects/imageSection'
 import mailchimp from './objects/mailchimp'
 import textSection from './objects/textSection'
 import ctaSection from './objects/ctaSection'
+import eventsSection from './objects/eventsSection'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -31,9 +35,12 @@ export default createSchema({
   // Then proceed to concatenate our our document type
   // to the ones provided by any plugins that are installed
   types: schemaTypes.concat([
+    author,
+    category,
     cta,
     ctaSection,
     embedHTML,
+    eventsSection,
     figure,
     hero,
     imageSection,
@@ -42,6 +49,7 @@ export default createSchema({
     mailchimp,
     page,
     portableText,
+    post,
     route,
     simplePortableText,
     siteConfig,

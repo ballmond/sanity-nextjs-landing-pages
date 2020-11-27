@@ -24,6 +24,7 @@ export default {
         { type: 'mailchimp' },
         { type: 'textSection' },
         { type: 'ctaSection' },
+        { type: 'eventsSection' },
       ],
     },
     {
