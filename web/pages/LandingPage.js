@@ -1,20 +1,24 @@
-import { getSiteDetails, getPageData, getRoutes, getPosts } from '../lib/api';
+import { getSiteDetails, getFrontPage, getPosts } from '../lib/api';
 import imageUrlBuilder from '@sanity/image-url';
 import { NextSeo } from 'next-seo';
 import client from '../client';
 import Layout from '../components/Layout';
+import PostPreview from '../components/PostPreview';
 import RenderSections from '../components/RenderSections';
+import { CtaSection } from '../components/sections';
 
-export default function LandingPage({ page, site, slug, events }) {
+export default function LandingPage({ page, site, events, sermons, slug }) {
   const builder = imageUrlBuilder(client);
-
   const {
     title = 'Missing title',
     description,
     disallowRobots,
     openGraphImage,
-    content = [],
     config = {},
+    hero,
+    text,
+    info,
+    cta,
   } = page;
 
   const openGraphImages = openGraphImage
@@ -63,14 +67,29 @@ export default function LandingPage({ page, site, slug, events }) {
           noindex: disallowRobots,
         }}
       />
-      {content && <RenderSections sections={content} posts={events} />}
+      <div>
+        <span>{hero && <RenderSections sections={hero} />}</span>
+      </div>
+      <div>
+        <span>{text && <RenderSections sections={text} />}</span>
+      </div>
+      <div>{cta && <RenderSections sections={cta} />}</div>
+      <div>
+        <h1>Upcoming Events</h1>
+        {events && <RenderSections sections={events} />}
+      </div>
+      <div>
+        <h1>Sermon Audio</h1>
+        {sermons && <RenderSections sections={sermons} />}
+      </div>
+      <div>{info && <RenderSections sections={info} />}</div>
     </Layout>
   );
 }
 
-export async function getStaticProps({ params }) {
-  const { slug = '/' } = params;
-  const { data } = await getPageData(slug);
+export async function getStaticProps() {
+  const slug = 'LandingPage';
+  const { data } = await getFrontPage();
   const { data: events } = await getPosts('Event', 5);
   const { data: sermons } = await getPosts('Sermon', 5);
 
@@ -82,22 +101,6 @@ export async function getStaticProps({ params }) {
       ...data,
       ...site.data,
     },
-  };
-
-  return props;
-}
-
-export async function getStaticPaths() {
-  const { data } = await getRoutes();
-  const props = {
-    paths: data.map((route) => {
-      return {
-        params: {
-          slug: route.slug.current,
-        },
-      };
-    }),
-    fallback: false,
   };
 
   return props;

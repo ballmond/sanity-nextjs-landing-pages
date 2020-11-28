@@ -4,14 +4,18 @@ export default {
   title: 'Text',
   fields: [
     {
-      name: 'label',
-      type: 'string',
-      title: 'Label',
-    },
-    {
       name: 'heading',
       type: 'string',
       title: 'Heading',
+    },
+    {
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {
+        source: 'heading',
+        maxLength: 96,
+      },
     },
     {
       name: 'text',
@@ -27,7 +31,7 @@ export default {
       return {
         title: `${heading}`,
         subtitle: 'Text section',
-      };
+      }
     },
   },
-};
+}

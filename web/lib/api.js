@@ -1,25 +1,6 @@
 import groq from 'groq';
 import client from '../client';
 
-const pageQuery = groq`
-*[_type == "route" && slug.current == $slug][0]{
-  page-> {
-    ...,
-    content[] {
-      ...,
-      cta {
-        ...,
-        route->
-      },
-      ctas[] {
-        ...,
-        route->
-      }
-    }
-  }
-}
-`;
-
 const postQuery = groq`
 *[_type == "post" && slug.current == 'sunday-school'][0]
 `;
@@ -38,18 +19,6 @@ const siteConfigQuery = groq`
     }
   }[0]
   }
-  `;
-
-const postsQuery = groq`
-*[_type == 'post'] | order(publishedAt desc){
-  title,
-  'key': _rev,
-  'slug': slug.current,
-  body,
-  'categories': categories[]->.title,
-  'author': author->.name,
-  publishedAt
-}
   `;
 
 const routesQuery = groq`
@@ -76,6 +45,25 @@ export async function getSiteDetails() {
 }
 
 export async function getPageData(slug) {
+  const pageQuery = groq`
+  *[_type == "route" && slug.current == $slug][0]{
+    page-> {
+      ...,
+      content[] {
+        ...,
+        cta {
+          ...,
+          route->
+        },
+        ctas[] {
+          ...,
+          route->
+        }
+      }
+    }
+  }
+  `;
+
   const res = await client.fetch(pageQuery, { slug }).then((res) => ({ ...res, slug }));
 
   const data = {
@@ -86,20 +74,6 @@ export async function getPageData(slug) {
 }
 
 export async function getRoutes() {
-  // const { routes } = await client.fetch(pathsQuery);
-
-  // const props = {
-  //   paths: routes.map((route) => {
-  //     return {
-  //       params: {
-  //         slug: route.slug.current,
-  //       },
-  //     };
-  //   }),
-  //   fallback: false,
-  // };
-
-  // return props;
   const res = await client.fetch(routesQuery);
   const data = {
     data: res,
@@ -117,8 +91,44 @@ export async function getPost(slug) {
   return data;
 }
 
-export async function getPosts() {
-  const res = await client.fetch(postsQuery);
+export async function getPosts(postType, limit = 0) {
+  const limitStr = limit > 0 ? `[0...${limit}]` : '';
+  const query = groq`
+*[_type == 'post'] | order(publishedAt desc){
+  title,
+  'key': slug.current,
+  'slug': slug.current,
+  body,
+  "type": postType->label,
+  'tags': tags[]->.label,
+  'author': author->.name,
+  publishedAt,
+  _type,
+  "coverImage": mainImage
+} | [type == '${postType}'] ${limitStr}
+`;
+
+  const res = await client.fetch(query);
+  const data = {
+    data: res,
+  };
+
+  return data;
+}
+
+export async function getFrontPage(slug = 'Frontpage') {
+  const query = groq`
+*[_type == 'page' && title=='${slug}'][0]{
+  "page":{
+  "hero": content | [_type == 'hero'] {...},
+  "cta": content | [_type == 'ctaSection'] {..., ctas[]{..., route->}},
+  "text": content | [_type == 'textSection'] | [slug.current == 'welcome'] {...},
+  "info": content | [_type == 'textSection'] | [slug.current == 'info'] {...}
+	}
+}  
+`;
+
+  const res = await client.fetch(query);
   const data = {
     data: res,
   };
