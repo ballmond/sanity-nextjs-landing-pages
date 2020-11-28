@@ -1,11 +1,11 @@
 export default {
-  name: 'category',
-  title: 'Category',
+  name: 'tag',
+  title: 'Tag',
   type: 'document',
   fields: [
     {
-      name: 'title',
-      title: 'Title',
+      name: 'label',
+      title: 'Label',
       type: 'string',
     },
     {

@@ -10,7 +10,8 @@ import route from './documents/route'
 import siteConfig from './documents/siteConfig'
 import post from './documents/post'
 import author from './documents/author'
-import category from './documents/category'
+import tag from './documents/tag'
+import postType from './documents/postType'
 
 // Object types
 import cta from './objects/cta'
@@ -36,7 +37,6 @@ export default createSchema({
   // to the ones provided by any plugins that are installed
   types: schemaTypes.concat([
     author,
-    category,
     cta,
     ctaSection,
     embedHTML,
@@ -50,9 +50,11 @@ export default createSchema({
     page,
     portableText,
     post,
+    postType,
     route,
     simplePortableText,
     siteConfig,
+    tag,
     textSection,
   ]),
 })
