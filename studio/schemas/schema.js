@@ -28,7 +28,6 @@ import imageSection from './objects/imageSection'
 import mailchimp from './objects/mailchimp'
 import textSection from './objects/textSection'
 import ctaSection from './objects/ctaSection'
-import eventsSection from './objects/eventsSection'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -40,7 +39,6 @@ export default createSchema({
     cta,
     ctaSection,
     embedHTML,
-    eventsSection,
     figure,
     hero,
     imageSection,
