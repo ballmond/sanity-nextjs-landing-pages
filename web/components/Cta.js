@@ -8,7 +8,7 @@ function cta(props) {
 
   if (route && route.slug && route.slug.current) {
     return (
-      <Link href={`/${route.slug.current}`}>
+      <Link href={`/page/${route.slug.current}`}>
         <a className={styles.button}>{title}</a>
       </Link>
     );

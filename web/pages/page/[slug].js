@@ -1,11 +1,11 @@
-import { getSiteDetails, getPageData, getRoutes, getPosts } from '../lib/api';
+import { getSiteDetails, getPageData, getRoutes, getPosts } from '../../lib/api';
 import imageUrlBuilder from '@sanity/image-url';
 import { NextSeo } from 'next-seo';
-import client from '../client';
-import Layout from '../components/Layout';
-import RenderSections from '../components/RenderSections';
+import client from '../../client';
+import Layout from '../../components/Layout';
+import RenderSections from '../../components/RenderSections';
 
-export default function LandingPage({ page, site, slug, events }) {
+export default function LandingPage({ page, site, slug }) {
   const builder = imageUrlBuilder(client);
 
   const {
@@ -63,7 +63,7 @@ export default function LandingPage({ page, site, slug, events }) {
           noindex: disallowRobots,
         }}
       />
-      {content && <RenderSections sections={content} posts={events} />}
+      {content && <RenderSections sections={content} />}
     </Layout>
   );
 }
@@ -71,14 +71,9 @@ export default function LandingPage({ page, site, slug, events }) {
 export async function getStaticProps({ params }) {
   const { slug = '/' } = params;
   const { data } = await getPageData(slug);
-  const { data: events } = await getPosts('Event', 5);
-  const { data: sermons } = await getPosts('Sermon', 5);
-
   const site = await getSiteDetails();
   const props = {
     props: {
-      events,
-      sermons,
       ...data,
       ...site.data,
     },

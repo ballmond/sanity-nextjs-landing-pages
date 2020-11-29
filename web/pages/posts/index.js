@@ -1,23 +1,24 @@
 import { getSiteDetails, getPageData, getRoutes, getPosts } from '../../lib/api';
 import Layout from '../../components/Layout';
 import PostPreview from '../../components/PostPreview';
+import styles from '../../styles/LandingPage.module.css';
 
 export default function Posts({ events, sermons, site }) {
   return (
-    <>
-      <h1>Upcoming Events</h1>
-      {events.map((post) => (
-        <PostPreview title={post.title} date={post.publishedAt} slug={post.slug}>
-          {post.title}
-        </PostPreview>
-      ))}
-      <h1>Sermon Audio</h1>
-      {sermons.map((post) => (
-        <PostPreview title={post.title} date={post.publishedAt} slug={post.slug}>
-          {post.title}
-        </PostPreview>
-      ))}
-    </>
+    <div className={styles.root}>
+      <div className={styles.content}>
+        <span className={styles.title}>Upcoming Events</span>
+        {events.map((e) => (
+          <PostPreview {...e} key={e.slug} />
+        ))}
+      </div>
+      <div className={styles.content}>
+        <span className={styles.title}>Sermon Audio</span>
+        {sermons.map((e) => (
+          <PostPreview {...e} key={e.slug} />
+        ))}
+      </div>
+    </div>
   );
 }
 

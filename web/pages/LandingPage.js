@@ -1,11 +1,10 @@
 import { getSiteDetails, getFrontPage, getPosts } from '../lib/api';
 import imageUrlBuilder from '@sanity/image-url';
 import { NextSeo } from 'next-seo';
-import Link from 'next/link';
 import client from '../client';
 import Layout from '../components/Layout';
 import RenderSections from '../components/RenderSections';
-import styles from './LandingPage.module.css';
+import styles from '../styles/LandingPage.module.css';
 import PostPreview from '../components/PostPreview';
 import { TextSection } from '../components/sections';
 

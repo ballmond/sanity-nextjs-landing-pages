@@ -17,19 +17,6 @@ const siteConfigQuery = groq`
   }
   `;
 
-const routesQuery = groq`
-  *[_type == "route"] {
-    ...,
-    disallowRobot,
-    includeInSitemap,
-    page->{
-      _id,
-      title,
-      _createdAt,
-      _updatedAt
-  }}
-`;
-
 export async function getSiteDetails() {
   const res = await client.fetch(siteConfigQuery).then((res) => ({ ...res }));
 
@@ -70,6 +57,19 @@ export async function getPageData(slug) {
 }
 
 export async function getRoutes() {
+  const routesQuery = groq`
+  *[_type == "route"] {
+    ...,
+    disallowRobot,
+    includeInSitemap,
+    page->{
+      _id,
+      title,
+      _createdAt,
+      _updatedAt
+  }} | [slug.current != 'LandingPage']
+`;
+
   const res = await client.fetch(routesQuery);
   const data = {
     data: res,
