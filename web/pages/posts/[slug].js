@@ -1,4 +1,4 @@
-import { getSiteDetails, getPost } from '../../lib/api';
+import { getPosts, getSiteDetails, getPost } from '../../lib/api';
 import Layout from '../../components/Layout';
 
 export default function Posts({ posts, site }) {
@@ -41,15 +41,17 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  //   return getRoutes();
-  return {
-    paths: [
-      {
+  const { data } = await getPosts();
+  const props = {
+    paths: data.map((route) => {
+      return {
         params: {
-          slug: 'sunday-school',
+          slug: route.slug,
         },
-      },
-    ],
+      };
+    }),
     fallback: false,
   };
+
+  return props;
 }

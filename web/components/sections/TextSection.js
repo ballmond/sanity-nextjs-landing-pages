@@ -5,7 +5,6 @@ import styles from './TextSection.module.css';
 export default function TextSection(props) {
   const { heading = ``, label = ``, text = [] } = props;
 
-  console.log(heading, label, text);
   return (
     <div className={styles.root}>
       <section className={styles.article}>

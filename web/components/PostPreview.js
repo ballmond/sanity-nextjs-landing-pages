@@ -41,4 +41,21 @@ export default function PostPreview({ title, coverImage, publishedAt, excerpt, a
       </div>
     </div>
   );
+  // return (
+  //   <div className={styles.root}>
+  //     <div className={styles.container}>
+  //       <div>
+  //         <Link passHref href={`/posts/${slug}`}>
+  //           <a>
+  //             <span className={styles.title}>{title}</span>
+  //           </a>
+  //         </Link>
+  //       </div>
+  //       <div>
+  //         Posted {` `}
+  //         <DateFormatter dateString={publishedAt} />
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
 }

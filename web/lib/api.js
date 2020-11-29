@@ -1,10 +1,6 @@
 import groq from 'groq';
 import client from '../client';
 
-const postQuery = groq`
-*[_type == "post" && slug.current == 'sunday-school'][0]
-`;
-
 const siteConfigQuery = groq`
   {"site": *[_id == "global-config"] {
     ...,
@@ -83,6 +79,9 @@ export async function getRoutes() {
 }
 
 export async function getPost(slug) {
+  const postQuery = groq`
+  *[_type == "post" && slug.current == '${slug}'][0]
+  `;
   const res = await client.fetch(postQuery, { slug });
   const data = {
     data: res,
@@ -93,6 +92,7 @@ export async function getPost(slug) {
 
 export async function getPosts(postType, limit = 0) {
   const limitStr = limit > 0 ? `[0...${limit}]` : '';
+  const typeStr = postType ? ` | [type == '${postType}']` : ``;
   const query = groq`
 *[_type == 'post'] | order(publishedAt desc){
   title,
@@ -105,7 +105,7 @@ export async function getPosts(postType, limit = 0) {
   publishedAt,
   _type,
   "coverImage": mainImage
-} | [type == '${postType}'] ${limitStr}
+} ${typeStr} ${limitStr}
 `;
 
   const res = await client.fetch(query);

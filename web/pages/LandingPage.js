@@ -23,8 +23,6 @@ export default function LandingPage({ page, site, events, sermons, slug }) {
     cta,
   } = page;
 
-  console.log(info);
-  console.log(text);
   const openGraphImages = openGraphImage
     ? [
         {
@@ -74,11 +72,6 @@ export default function LandingPage({ page, site, events, sermons, slug }) {
       <div>
         <span>{hero && <RenderSections sections={hero} />}</span>
       </div>
-      {/*
-      <div>
-        <span>{text && <RenderSections sections={text} />}</span>
-      </div>
-      */}
       <div className={styles.root}>
         <div className={styles.main}>
           <TextSection {...text[0]} />
