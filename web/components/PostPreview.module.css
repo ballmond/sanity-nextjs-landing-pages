@@ -52,11 +52,9 @@
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
   margin: 0;
   padding: 0;
-  padding-top: 12.5rem;
 
   @media (--media-min-medium) {
     font-size: var(--font-title2-size);
     line-height: var(--font-title2-line-height);
-    padding-top: 15rem;
   }
 }

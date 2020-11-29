@@ -10,7 +10,6 @@ function urlFor(source) {
 }
 
 export default function PostPreview({ title, coverImage, publishedAt, excerpt, author, slug }) {
-  console.log(slug);
   const builder = imageUrlBuilder(client);
 
   return (
@@ -28,16 +27,16 @@ export default function PostPreview({ title, coverImage, publishedAt, excerpt, a
         <></>
       )}
       <div className={styles.container}>
-        <Link passHref href={`/posts/${slug}`}>
-          <a>
-            <span className={styles.title}>{title}</span>
-          </a>
-        </Link>
         <div>
-          <span>
-            Posted {` `}
-            <DateFormatter dateString={publishedAt} />
-          </span>
+          <Link passHref href={`/posts/${slug}`}>
+            <a>
+              <span className={styles.title}>{title}</span>
+            </a>
+          </Link>
+        </div>
+        <div>
+          Posted {` `}
+          <DateFormatter dateString={publishedAt} />
         </div>
       </div>
     </div>

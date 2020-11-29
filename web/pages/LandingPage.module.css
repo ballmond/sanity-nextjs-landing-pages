@@ -20,6 +20,7 @@
 }
 
 .content {
+  /* border: 1px solid blue; */
   box-sizing: border-box;
   max-width: var(--width-large);
   min-width: var(--width-small);
@@ -43,4 +44,15 @@
     line-height: var(--font-title1-line-height);
     padding-top: 15rem;
   }
+}
+
+.main {
+  /* border: 1px solid blue; */
+  min-width: var(--width-medium);
+}
+
+.info {
+  /* border: 1px solid red; */
+  min-width: var(--width-small);
+  max-width: var(--width-medium);
 }

@@ -1,11 +1,13 @@
 import { getSiteDetails, getFrontPage, getPosts } from '../lib/api';
 import imageUrlBuilder from '@sanity/image-url';
 import { NextSeo } from 'next-seo';
+import Link from 'next/link';
 import client from '../client';
 import Layout from '../components/Layout';
 import RenderSections from '../components/RenderSections';
 import styles from './LandingPage.module.css';
 import PostPreview from '../components/PostPreview';
+import { TextSection } from '../components/sections';
 
 export default function LandingPage({ page, site, events, sermons, slug }) {
   const builder = imageUrlBuilder(client);
@@ -21,6 +23,8 @@ export default function LandingPage({ page, site, events, sermons, slug }) {
     cta,
   } = page;
 
+  console.log(info);
+  console.log(text);
   const openGraphImages = openGraphImage
     ? [
         {
@@ -70,21 +74,21 @@ export default function LandingPage({ page, site, events, sermons, slug }) {
       <div>
         <span>{hero && <RenderSections sections={hero} />}</span>
       </div>
+      {/*
       <div>
         <span>{text && <RenderSections sections={text} />}</span>
       </div>
-      <div>{cta && <RenderSections sections={cta} />}</div>
-      {/*
-      <div>
-        <h1>Upcoming Events</h1>
-        {events && <RenderSections sections={events} />}
-      </div>
-      <div>
-        <h1>Sermon Audio</h1>
-        {sermons && <RenderSections sections={sermons} />}
-      </div>
-      <div>{info && <RenderSections sections={info} />}</div>
       */}
+      <div className={styles.root}>
+        <div className={styles.main}>
+          <TextSection {...text[0]} />
+        </div>
+        <div className={styles.info}>
+          <TextSection {...info[0]} />
+        </div>
+      </div>
+
+      <div>{cta && <RenderSections sections={cta} />}</div>
       <div className={styles.root}>
         <div className={styles.content}>
           <span className={styles.title}>Upcoming Events</span>
@@ -95,7 +99,7 @@ export default function LandingPage({ page, site, events, sermons, slug }) {
         <div className={styles.content}>
           <span className={styles.title}>Sermon Audio</span>
           {sermons.map((e) => (
-            <h4 key={e.slug}>{e.title}</h4>
+            <PostPreview {...e} key={e.slug} />
           ))}
         </div>
       </div>
