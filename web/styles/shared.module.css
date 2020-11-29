@@ -5,6 +5,15 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  position: relative;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  padding-bottom: 2rem;
+
+  @media (--media-min-medium) {
+    padding-bottom: 4rem;
+  }
 }
 
 .container {

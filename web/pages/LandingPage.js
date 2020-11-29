@@ -3,9 +3,9 @@ import imageUrlBuilder from '@sanity/image-url';
 import { NextSeo } from 'next-seo';
 import client from '../client';
 import Layout from '../components/Layout';
-import PostPreview from '../components/PostPreview';
 import RenderSections from '../components/RenderSections';
-import { CtaSection } from '../components/sections';
+import styles from './LandingPage.module.css';
+import PostPreview from '../components/PostPreview';
 
 export default function LandingPage({ page, site, events, sermons, slug }) {
   const builder = imageUrlBuilder(client);
@@ -74,6 +74,7 @@ export default function LandingPage({ page, site, events, sermons, slug }) {
         <span>{text && <RenderSections sections={text} />}</span>
       </div>
       <div>{cta && <RenderSections sections={cta} />}</div>
+      {/*
       <div>
         <h1>Upcoming Events</h1>
         {events && <RenderSections sections={events} />}
@@ -83,6 +84,21 @@ export default function LandingPage({ page, site, events, sermons, slug }) {
         {sermons && <RenderSections sections={sermons} />}
       </div>
       <div>{info && <RenderSections sections={info} />}</div>
+      */}
+      <div className={styles.root}>
+        <div className={styles.content}>
+          <span className={styles.title}>Upcoming Events</span>
+          {events.map((e) => (
+            <PostPreview {...e} key={e.slug} />
+          ))}
+        </div>
+        <div className={styles.content}>
+          <span className={styles.title}>Sermon Audio</span>
+          {sermons.map((e) => (
+            <h4 key={e.slug}>{e.title}</h4>
+          ))}
+        </div>
+      </div>
     </Layout>
   );
 }
