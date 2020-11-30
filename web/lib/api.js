@@ -1,7 +1,8 @@
 import groq from 'groq';
 import client from '../client';
 
-const siteConfigQuery = groq`
+export async function getSiteDetails() {
+  const siteConfigQuery = groq`
   {"site": *[_id == "global-config"] {
     ...,
     logo {asset->{extension, url}},
@@ -17,7 +18,6 @@ const siteConfigQuery = groq`
   }
   `;
 
-export async function getSiteDetails() {
   const res = await client.fetch(siteConfigQuery).then((res) => ({ ...res }));
 
   const data = {

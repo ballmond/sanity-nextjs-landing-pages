@@ -16,7 +16,7 @@ function Footer(props) {
               const isActive = router.pathname === '/' && router.query.slug === item.slug.current;
               return (
                 <li key={item._id} className={styles.item}>
-                  <Link href={`/${item.slug.current}`}>
+                  <Link href={`/page/${item.slug.current}`}>
                     <a data-is-active={isActive ? 'true' : 'false'}>{item.title}</a>
                   </Link>
                 </li>

@@ -7,6 +7,7 @@ import RenderSections from '../components/RenderSections';
 import styles from '../styles/LandingPage.module.css';
 import PostPreview from '../components/PostPreview';
 import { TextSection } from '../components/sections';
+import SimpleBlockContent from '../components/SimpleBlockContent';
 
 export default function LandingPage({ page, site, events, sermons, slug }) {
   const builder = imageUrlBuilder(client);
@@ -72,14 +73,28 @@ export default function LandingPage({ page, site, events, sermons, slug }) {
         <span>{hero && <RenderSections sections={hero} />}</span>
       </div>
       <div className={styles.root}>
-        <div className={styles.main}>
-          <TextSection {...text[0]} />
-        </div>
-        <div className={styles.info}>
-          <TextSection {...info[0]} />
-        </div>
+        <section className={styles.article}>
+          <div className={styles.label}>{text[0].label}</div>
+          <h2 className={styles.heading}>{text[0].heading}</h2>
+          {text && <SimpleBlockContent blocks={text[0].text} />}
+        </section>
       </div>
-
+      <div className={styles.root}>
+        <section className={styles.article}>
+          <div className={styles.label}>{info[0].label}</div>
+          <h2 className={styles.heading}>{info[0].heading}</h2>
+          {text && <SimpleBlockContent blocks={info[0].text} />}
+          <span>
+            <iframe
+              className={styles.map}
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3049.768009049789!2d-75.25916498342954!3d40.1474510798939!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c6bc9a2818dc7d%3A0xd504d1564cd27c54!2sGrace%20Baptist%20Church-Blue%20Bell!5e0!3m2!1sen!2sus!4v1606690073851!5m2!1sen!2sus"
+              allowFullScreen
+              aria-hidden="false"
+              tabIndex="0"
+            ></iframe>
+          </span>
+        </section>
+      </div>
       <div>{cta && <RenderSections sections={cta} />}</div>
       <div className={styles.root}>
         <div className={styles.content}>
@@ -88,6 +103,8 @@ export default function LandingPage({ page, site, events, sermons, slug }) {
             <PostPreview {...e} key={e.slug} />
           ))}
         </div>
+      </div>
+      <div className={styles.root}>
         <div className={styles.content}>
           <span className={styles.title}>Sermon Audio</span>
           {sermons.map((e) => (

@@ -40,7 +40,7 @@ export default function Header(props) {
               const { slug, title, _id } = item;
               return (
                 <li key={_id} className={styles.navItem}>
-                  <Link href={`/${slug.current}`}>
+                  <Link href={`/page/${slug.current}`}>
                     <a>{title}</a>
                   </Link>
                 </li>
